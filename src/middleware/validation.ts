@@ -24,3 +24,27 @@ export const validateMyUserRequest = [
   body("country").isString().notEmpty().withMessage("Country must be a string"),
   handleValidationErrors,
 ];
+
+export const validateUserSignUpRequest = [
+  body("name").isString().notEmpty().withMessage("Name must be a string"),
+  body("email").isString().notEmpty().withMessage("Email must be a string"),
+  body("password")
+    .isString()
+    .notEmpty()
+    .withMessage("Password must be a string"),
+  handleValidationErrors,
+];
+
+export const validateUserLoginRequest = [
+  body("email").isString().notEmpty().withMessage("Email must be a string"),
+  body("password")
+    .isString()
+    .notEmpty()
+    .withMessage("Password must be a string"),
+  handleValidationErrors,
+];
+
+export const validateUserOtpVerificationRequest = [
+  body("otp").isString().notEmpty().withMessage("Otp is Required"),
+  handleValidationErrors,
+];

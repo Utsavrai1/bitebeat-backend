@@ -2,8 +2,12 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
 import "./db/conn";
-import myUserRoutes from "./routes/myUserRoutes";
 import morgan from "morgan";
+
+// Routes Import
+
+import myUserRoutes from "./routes/myUserRoutes";
+import authRoutes from "./routes/AuthRoutes";
 
 const port = process.env.PORT || 3001;
 const app = express();
@@ -20,6 +24,7 @@ app.get("/health", async (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/my/user", myUserRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 app.listen(port, () => {
   console.log(`Server rocking on http://localhost:${port}`);
