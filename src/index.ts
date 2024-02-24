@@ -8,8 +8,8 @@ import "./utils/cloudinary";
 
 // Routes Import
 
-import myUserRoutes from "./routes/MyUserRoutes";
-import authRoutes from "./routes/AuthRoutes";
+import myUserRoutes from "./routes/MyUserRoute";
+import authRoutes from "./routes/AuthRoute";
 import myRestaurantRoutes from "./routes/MyRestaurantRoute";
 
 const port = process.env.PORT || 3001;
