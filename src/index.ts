@@ -11,6 +11,7 @@ import "./utils/cloudinary";
 import myUserRoutes from "./routes/MyUserRoute";
 import authRoutes from "./routes/AuthRoute";
 import myRestaurantRoutes from "./routes/MyRestaurantRoute";
+import restaurantRoute from "./routes/RestaurantRoute";
 
 const port = process.env.PORT || 3001;
 const app = express();
@@ -29,6 +30,7 @@ app.get("/health", async (req: Request, res: Response) => {
 app.use("/api/v1/my/user", myUserRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/my/restaurant", myRestaurantRoutes);
+app.use("/api/v1/restaurant", restaurantRoute);
 
 app.listen(port, () => {
   console.log(`Server rocking on http://localhost:${port}`);
