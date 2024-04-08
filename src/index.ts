@@ -12,9 +12,13 @@ import myUserRoutes from "./routes/MyUserRoute";
 import authRoutes from "./routes/AuthRoute";
 import myRestaurantRoutes from "./routes/MyRestaurantRoute";
 import restaurantRoute from "./routes/RestaurantRoute";
+import orderRoute from "./routes/OrderRoute";
 
 const port = process.env.PORT || 3001;
 const app = express();
+
+app.use("/api/v1/order/checkout/webhook", express.raw({ type: "*/*" }));
+
 app.use(express.json());
 app.use(cors());
 app.use(morgan("tiny"));
@@ -31,6 +35,7 @@ app.use("/api/v1/my/user", myUserRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/my/restaurant", myRestaurantRoutes);
 app.use("/api/v1/restaurant", restaurantRoute);
+app.use("/api/v1/order", orderRoute);
 
 app.listen(port, () => {
   console.log(`Server rocking on http://localhost:${port}`);
