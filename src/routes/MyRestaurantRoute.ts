@@ -32,4 +32,12 @@ router.put(
   MyRestaurantControllers.updateMyRestaurant
 );
 
+router.get("/order", jwtParse, MyRestaurantControllers.getMyRestaurantOrders);
+
+router.patch(
+  "/order/:orderId/status",
+  jwtParse,
+  MyRestaurantControllers.updateOrderStatus
+);
+
 export default router;
