@@ -8,10 +8,12 @@ import {
 const router = express.Router();
 
 router.get(
-  "/:restaurantId",
+  "/details/:restaurantId",
   validateRestaurantRequest,
   RestaurantController.getRestaurant
 );
+
+router.get("/top", RestaurantController.getTopRestaurant);
 
 router.get(
   "/search/:city",
