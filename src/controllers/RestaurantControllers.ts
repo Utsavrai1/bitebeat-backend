@@ -10,8 +10,6 @@ const getRestaurant = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "restaurant not found" });
     }
 
-    console.log(restaurant);
-
     return res.json(restaurant);
   } catch (error) {
     console.log(error);
@@ -32,7 +30,6 @@ const searchRestaurant = async (req: Request, res: Response) => {
 
     query["city"] = new RegExp(city, "i");
     const cityCheck = await Restaurant.countDocuments(query);
-    console.log(cityCheck);
     if (cityCheck === 0) {
       return res.status(404).json({
         data: [],
