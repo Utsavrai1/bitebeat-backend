@@ -1,6 +1,7 @@
 import { Document } from "mongoose";
 
 export interface OtpInterface extends Document {
+  _id: string;
   email: string;
   password: string;
   name: string;
