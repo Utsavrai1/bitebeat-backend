@@ -14,4 +14,6 @@ router.post(
 
 router.post("/checkout/webhook", OrderControllers.stripeWebhookHandler);
 
+router.post("/rate", jwtParse, OrderControllers.rateOrder);
+
 export default router;

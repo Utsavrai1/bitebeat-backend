@@ -119,6 +119,35 @@ const updateOrderStatus = async (req: Request, res: Response) => {
       return res.status(401).send();
     }
 
+    let validStatusTransitions: string[] = [];
+
+    switch (order.status) {
+      case "placed":
+        validStatusTransitions = ["placed", "paid"];
+        break;
+      case "paid":
+        validStatusTransitions = ["paid", "inProgress"];
+        break;
+      case "inProgress":
+        validStatusTransitions = ["inProgress", "outForDelivery"];
+        break;
+      case "outForDelivery":
+        validStatusTransitions = ["outForDelivery", "delivered"];
+        break;
+      case "delivered":
+        validStatusTransitions = ["delivered"];
+        break;
+      default:
+        validStatusTransitions = [];
+        break;
+    }
+
+    if (!validStatusTransitions.includes(status)) {
+      return res.status(400).json({
+        message: `Invalid status transition from ${order.status} to ${status}`,
+      });
+    }
+
     order.status = status;
     await order.save();
 

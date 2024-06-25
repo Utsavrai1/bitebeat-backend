@@ -2,6 +2,8 @@ import Stripe from "stripe";
 import { Request, Response } from "express";
 import Restaurant, { MenuItemType } from "../models/restaurant";
 import Order from "../models/order";
+import Rating from "../models/rating";
+
 const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string);
 const FRONTEND_URL = process.env.FRONTEND_URL as string;
 const STRIPE_ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET as string;
@@ -26,6 +28,7 @@ const getMyOrders = async (req: Request, res: Response) => {
     const orders = await Order.find({ user: req.userId })
       .populate("restaurant")
       .populate("user")
+      .populate("rating")
       .sort({ createdAt: -1 });
 
     return res.json(orders);
@@ -175,8 +178,44 @@ const createSession = async (
   return sessionData;
 };
 
+const rateOrder = async (req: Request, res: Response) => {
+  const userId = req.userId;
+  const { restaurtId, rating, review, orderId } = req.body;
+
+  try {
+    const orders = await Order.findOne({
+      user: userId,
+      _id: orderId,
+      restaurant: restaurtId,
+    });
+
+    if (!orders) {
+      return res.status(404).json({ message: "Order Not Found" });
+    }
+
+    const newRating = new Rating({
+      restaurtId: restaurtId,
+      rating: rating,
+      review: review,
+    });
+
+    newRating.save();
+
+    const ratingId = newRating._id;
+    orders.rating = ratingId;
+
+    orders.save();
+
+    return res.status(201).json({ message: "Order Rated Successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 export default {
   getMyOrders,
   createCheckoutSession,
   stripeWebhookHandler,
+  rateOrder,
 };
